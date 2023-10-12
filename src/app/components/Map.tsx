@@ -1,20 +1,43 @@
 'use client'
 import { useRef, useEffect, PropsWithChildren } from "react"
-import { MapContainer, Marker, Popup, TileLayer, useMap, Polyline } from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer, useMap, Polyline, Tooltip } from 'react-leaflet'
 
 import 'leaflet/dist/leaflet.css'
 import { LatLngExpression } from "leaflet"
 
-export const Map: React.FC<PropsWithChildren> = () => {
+interface MapProps {
+    currentHike: Hike
+}
 
-    var latlngs: LatLngExpression[] = [
-        [53.90563071705400943756103515625, -1.694386638700962066650390625],
-        [53.92242218367755413055419921875, -1.71332848258316516876220703125],
-        [53.93093031831085681915283203125, -1.69319883920252323150634765625],
-    ];
+export const Map = ({ currentHike }: MapProps) => {
+
+    // convert hike to tracks
+    const allTracks: LatLngExpression[][] = []
+    currentHike.tracks.forEach((trk) => {
+        const lte: LatLngExpression[] = trk.points.map((gpsPoint) => {
+            return [gpsPoint.lat, gpsPoint.lng]
+        });
+
+        allTracks.push(lte)
+    })
+
+    // createPolyLines
+    const polyLines = allTracks.map((track) => {
+        return (
+
+            <Polyline
+                positions={track}
+                color="red"
+                weight={6}>
+                <Tooltip sticky>Day 2: 2023-04-09</Tooltip>
+            </Polyline>
+
+        )
+    })
+
     return (
         <MapContainer
-            center={latlngs[0]}
+            center={allTracks[0][0]}
             zoom={13}
             scrollWheelZoom={false}
             style={{ height: '50vh' }}
@@ -23,10 +46,9 @@ export const Map: React.FC<PropsWithChildren> = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Polyline
-                positions={latlngs}
-                color="red"
-                weight={6} />
+
+            {polyLines}
+
         </MapContainer>
     )
 
