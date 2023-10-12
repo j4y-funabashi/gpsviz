@@ -6,14 +6,14 @@ import 'leaflet/dist/leaflet.css'
 import { LatLngExpression } from "leaflet"
 
 interface MapProps {
-    currentHike: Hike
+    currentHike?: Hike
 }
 
 export const Map = ({ currentHike }: MapProps) => {
 
     // convert hike to tracks
     const allTracks: LatLngExpression[][] = []
-    currentHike.tracks.forEach((trk) => {
+    currentHike?.tracks.forEach((trk) => {
         const lte: LatLngExpression[] = trk.points.map((gpsPoint) => {
             return [gpsPoint.lat, gpsPoint.lng]
         });
@@ -24,20 +24,19 @@ export const Map = ({ currentHike }: MapProps) => {
     // createPolyLines
     const polyLines = allTracks.map((track) => {
         return (
-
             <Polyline
                 positions={track}
                 color="red"
                 weight={6}>
                 <Tooltip sticky>Day 2: 2023-04-09</Tooltip>
             </Polyline>
-
         )
     })
+    const mapCenter = allTracks.length > 0 ? allTracks[0][0] : { lat: 51.505, lng: -0.09 }
 
     return (
         <MapContainer
-            center={allTracks[0][0]}
+            center={mapCenter}
             zoom={13}
             scrollWheelZoom={false}
             style={{ height: '50vh' }}
@@ -51,5 +50,4 @@ export const Map = ({ currentHike }: MapProps) => {
 
         </MapContainer>
     )
-
 }
