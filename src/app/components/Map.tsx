@@ -8,16 +8,16 @@ import { LatLngExpression } from "leaflet"
 export const Map: React.FC<PropsWithChildren> = () => {
 
     var latlngs: LatLngExpression[] = [
-        [54.25949505530297756195068359375, -4.4629850797355175018310546875],
-        [54.26073423586785793304443359375, -4.46283244527876377105712890625],
-        [54.2616585083305835723876953125, -4.46297091431915760040283203125],
+        [53.90563071705400943756103515625, -1.694386638700962066650390625],
+        [53.92242218367755413055419921875, -1.71332848258316516876220703125],
+        [53.93093031831085681915283203125, -1.69319883920252323150634765625],
     ];
     return (
         <MapContainer
             center={latlngs[0]}
             zoom={13}
             scrollWheelZoom={false}
-            style={{ height: '100vh' }}
+            style={{ height: '50vh' }}
         >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
