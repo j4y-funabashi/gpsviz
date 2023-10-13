@@ -21,23 +21,29 @@ export const Map = ({ currentHike }: MapProps) => {
         allTracks.push(lte)
     })
 
+    const defaultLocation = { lat: 53.79648, lng: -1.54785 }
+    const mapCenter = allTracks.length > 0 ? allTracks[0][0] : defaultLocation
+    const mapZoom = allTracks.length > 0 ? 11 : 7
+    const lineWeight = 6
+    const lineColor = "red"
+
     // createPolyLines
-    const polyLines = allTracks.map((track) => {
+    const polyLines = allTracks.map((track, i) => {
+        const tt = `Track ${i + 1}: ${currentHike?.name}`
         return (
             <Polyline
                 positions={track}
-                color="red"
-                weight={6}>
-                <Tooltip sticky>Day 2: 2023-04-09</Tooltip>
+                color={lineColor}
+                weight={lineWeight}>
+                <Tooltip sticky>{tt}</Tooltip>
             </Polyline>
         )
     })
-    const mapCenter = allTracks.length > 0 ? allTracks[0][0] : { lat: 51.505, lng: -0.09 }
 
     return (
         <MapContainer
             center={mapCenter}
-            zoom={11}
+            zoom={mapZoom}
             scrollWheelZoom={false}
             style={{ height: '50vh' }}
         >
