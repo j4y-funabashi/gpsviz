@@ -6,7 +6,7 @@ interface GPSPoint {
 }
 
 interface Track {
-    name?: string;
+    id?: string;
     points: GPSPoint[];
 }
 

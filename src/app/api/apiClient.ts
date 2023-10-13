@@ -1,6 +1,20 @@
 import fs from "fs"
 import path from "path";
 
+export const fetchTracks = async (): Promise<Track[]> => {
+
+    return [
+        { id: "2022-10-19", points: [] },
+        { id: "2022-10-18", points: [] },
+        { id: "2022-10-17", points: [] },
+        { id: "2022-10-16", points: [] },
+        { id: "2022-10-15", points: [] },
+        { id: "2022-10-14", points: [] },
+        { id: "2022-10-08", points: [] },
+    ]
+
+}
+
 export const fetchHike = async (hikeID: string): Promise<Hike> => {
 
     var track1: GPSPoint[] = [

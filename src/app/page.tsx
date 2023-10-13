@@ -2,18 +2,29 @@
 import dynamic from "next/dynamic"
 import { AddTrack } from "./components/AddTrack";
 import { MapStats } from "./components/MapStats";
-import { useState } from "react";
-import { fetchHike } from "./api/apiClient";
+import { useEffect, useState } from "react";
+import { fetchHike, fetchTracks } from "./api/apiClient";
 
 export default function Home() {
   const Map = dynamic(() => import("./components/Map").then(mod => mod.Map), { ssr: false });
 
   const [currentHike, setCurrentHike] = useState<Hike>()
+  const [tracks, setTracks] = useState<Track[]>([])
 
   const loadNewHike = async (hikeID: string) => {
     const newHike = await fetchHike(hikeID)
     setCurrentHike(newHike)
   }
+
+  useEffect(
+    () => {
+      const e = async () => {
+        const tracks = await fetchTracks()
+        setTracks(tracks)
+      }
+      e()
+    }, [setTracks, fetchTracks]
+  )
 
   return (
     <main>
@@ -22,7 +33,7 @@ export default function Home() {
 
       <div className="grid lg:grid-cols-3">
         <div>
-          <AddTrack />
+          <AddTrack tracks={tracks} />
         </div>
 
         <div>
