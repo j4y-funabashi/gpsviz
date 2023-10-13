@@ -37,7 +37,7 @@ export const Map = ({ currentHike }: MapProps) => {
     return (
         <MapContainer
             center={mapCenter}
-            zoom={13}
+            zoom={11}
             scrollWheelZoom={false}
             style={{ height: '50vh' }}
         >

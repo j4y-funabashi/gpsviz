@@ -1,5 +1,8 @@
+import fs from "fs"
+import path from "path";
 
 export const fetchHike = async (hikeID: string): Promise<Hike> => {
+
     var track1: GPSPoint[] = [
         {
             lat: 53.90563071705400943756103515625,

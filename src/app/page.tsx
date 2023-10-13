@@ -3,7 +3,7 @@ import dynamic from "next/dynamic"
 import { AddTrack } from "./components/AddTrack";
 import { MapStats } from "./components/MapStats";
 import { useState } from "react";
-import { fetchHike } from "./apiClient";
+import { fetchHike } from "./api/apiClient";
 
 export default function Home() {
   const Map = dynamic(() => import("./components/Map").then(mod => mod.Map), { ssr: false });
