@@ -6,7 +6,7 @@ export const HikeList = ({ hikes }: HikeListProps) => {
 
     const hl = hikes.map((h) => {
         return (
-            <li><a href="#" onClick={async () => { }}>{h.name}</a></li>
+            <li key={h.name}><a href="#" onClick={async () => { }}>{h.name}</a></li>
         )
     })
 

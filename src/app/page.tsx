@@ -5,6 +5,7 @@ import { MapStats } from "./components/MapStats";
 import { useEffect, useState } from "react";
 import { fetchHike, fetchTracks } from "./api/apiClient";
 import { HikeList } from "./components/Hikes";
+import { CreateHikeForm } from "./components/AddHike";
 
 export default function Home() {
   const Map = dynamic(() => import("./components/Map").then(mod => mod.Map), { ssr: false });
@@ -25,6 +26,10 @@ export default function Home() {
     setCurrentHike(newHike)
   }
 
+  const saveHike = async (hike: Hike) => {
+    setHikes([...hikes, hike])
+  }
+
   useEffect(
     () => {
       const e = async () => {
@@ -42,10 +47,11 @@ export default function Home() {
 
       <div className="grid lg:grid-cols-3">
         <div>
-          <AddTrack tracks={tracks} />
+          <AddTrack tracks={tracks} hikes={hikes} />
         </div>
 
         <div>
+          <CreateHikeForm saveHike={saveHike} />
           <HikeList hikes={hikes} />
         </div>
 

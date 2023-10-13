@@ -1,22 +1,37 @@
 interface AddTrackProps {
     tracks: Track[]
+    hikes: Hike[]
 }
 
-export const AddTrack = ({ tracks }: AddTrackProps) => {
+export const AddTrack = ({ tracks, hikes }: AddTrackProps) => {
 
-    const selectOptions = tracks.map((track) => {
+    const trackOptions = tracks.map((track) => {
         return (
             <option key={track.id} value={track.id}>{track.id}</option>
         )
     })
 
+    const hikeOptions = hikes.map((hike) => {
+        return (
+            <option key={hike.name} value={hike.name}>{hike.name}</option>
+        )
+    })
+
     return (
-        <form className="space-y-2">
-            <label className="block">
+        <form>
+            <label>
                 Choose a track
                 <select required defaultValue="none">
                     <option value="none" disabled>--- select a track ---</option>
-                    {selectOptions}
+                    {trackOptions}
+                </select>
+            </label>
+
+            <label>
+                Choose a hike
+                <select required defaultValue="none">
+                    <option value="none" disabled>--- select a hike ---</option>
+                    {hikeOptions}
                 </select>
             </label>
 
