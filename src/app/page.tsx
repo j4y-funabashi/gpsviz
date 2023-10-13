@@ -4,12 +4,21 @@ import { AddTrack } from "./components/AddTrack";
 import { MapStats } from "./components/MapStats";
 import { useEffect, useState } from "react";
 import { fetchHike, fetchTracks } from "./api/apiClient";
+import { HikeList } from "./components/Hikes";
 
 export default function Home() {
   const Map = dynamic(() => import("./components/Map").then(mod => mod.Map), { ssr: false });
 
+  const mockHikes: Hike[] = [
+    {
+      name: "Yorkshire Three Peaks",
+      tracks: []
+    }
+  ]
+
   const [currentHike, setCurrentHike] = useState<Hike>()
   const [tracks, setTracks] = useState<Track[]>([])
+  const [hikes, setHikes] = useState<Hike[]>(mockHikes)
 
   const loadNewHike = async (hikeID: string) => {
     const newHike = await fetchHike(hikeID)
@@ -37,12 +46,7 @@ export default function Home() {
         </div>
 
         <div>
-          <h1>Hikes</h1>
-          <ul>
-            <li><a href="#" onClick={async () => { loadNewHike("hadrians-wall") }}>Hadrians Wall Path</a></li>
-            <li>West Highland Way</li>
-            <li>Limestone Way</li>
-          </ul>
+          <HikeList hikes={hikes} />
         </div>
 
         <div>
