@@ -21,6 +21,7 @@ export const CreateHikeForm = ({ saveHike }: CreateHikeFormProps) => {
 
     return (
         <div>
+            <h1 className="text-lg">Add a hike</h1>
             <label className="block">
                 Name:
                 <input type="text" value={hikeName} onChange={(e) => { setHikeName(e.target.value) }} />

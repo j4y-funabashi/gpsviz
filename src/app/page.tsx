@@ -10,16 +10,10 @@ import { CreateHikeForm } from "./components/AddHike";
 export default function Home() {
   const Map = dynamic(() => import("./components/Map").then(mod => mod.Map), { ssr: false });
 
-  const mockHikes: Hike[] = [
-    {
-      name: "Yorkshire Three Peaks",
-      tracks: []
-    }
-  ]
-
   const [currentHike, setCurrentHike] = useState<Hike>()
+  const [currentTrack, setCurrentTrack] = useState<Track>()
   const [tracks, setTracks] = useState<Track[]>([])
-  const [hikes, setHikes] = useState<Hike[]>(mockHikes)
+  const [hikes, setHikes] = useState<Hike[]>([])
 
   const loadNewHike = async (hikeID: string) => {
     const newHike = await fetchHike(hikeID)
@@ -43,16 +37,17 @@ export default function Home() {
   return (
     <main>
 
-      <Map currentHike={currentHike} />
+      <Map currentHike={currentHike} currentTrack={currentTrack} />
 
       <div className="grid lg:grid-cols-3">
+
         <div>
-          <AddTrack tracks={tracks} hikes={hikes} />
+          <HikeList hikes={hikes} currentHike={currentHike} setCurrentHike={loadNewHike} />
+          <CreateHikeForm saveHike={saveHike} />
         </div>
 
         <div>
-          <CreateHikeForm saveHike={saveHike} />
-          <HikeList hikes={hikes} />
+          <AddTrack tracks={tracks} hikes={hikes} />
         </div>
 
         <div>

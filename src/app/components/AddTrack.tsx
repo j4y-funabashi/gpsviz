@@ -1,9 +1,13 @@
+import { useState } from "react"
+
 interface AddTrackProps {
     tracks: Track[]
     hikes: Hike[]
 }
 
 export const AddTrack = ({ tracks, hikes }: AddTrackProps) => {
+
+    const [selectedTrack, setSelectedTrack] = useState("")
 
     const trackOptions = tracks.map((track) => {
         return (
@@ -19,15 +23,15 @@ export const AddTrack = ({ tracks, hikes }: AddTrackProps) => {
 
     return (
         <form>
-            <label>
+            <label className="block">
                 Choose a track
-                <select required defaultValue="none">
+                <select required value={selectedTrack} onChange={(e) => { setSelectedTrack(e.target.value) }}>
                     <option value="none" disabled>--- select a track ---</option>
                     {trackOptions}
                 </select>
             </label>
 
-            <label>
+            <label className="block">
                 Choose a hike
                 <select required defaultValue="none">
                     <option value="none" disabled>--- select a hike ---</option>

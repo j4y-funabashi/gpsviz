@@ -71,7 +71,7 @@ export const fetchHike = async (hikeID: string): Promise<Hike> => {
     ];
 
     return {
-        name: "Hadrians Wall Path",
+        name: hikeID,
         tracks: [
             {
                 points: track1
