@@ -2,10 +2,10 @@ import { useState } from "react"
 
 interface AddTrackProps {
     tracks: Track[]
-    hikes: Hike[]
+    setCurrentTrack: (trackID: string) => Promise<void>
 }
 
-export const AddTrack = ({ tracks, hikes }: AddTrackProps) => {
+export const AddTrack = ({ tracks, setCurrentTrack }: AddTrackProps) => {
 
     const [selectedTrack, setSelectedTrack] = useState("")
 
@@ -15,31 +15,17 @@ export const AddTrack = ({ tracks, hikes }: AddTrackProps) => {
         )
     })
 
-    const hikeOptions = hikes.map((hike) => {
-        return (
-            <option key={hike.name} value={hike.name}>{hike.name}</option>
-        )
-    })
-
     return (
-        <form>
+        <div>
             <label className="block">
                 Choose a track
-                <select required value={selectedTrack} onChange={(e) => { setSelectedTrack(e.target.value) }}>
+                <select required value={selectedTrack} onChange={(e) => { setSelectedTrack(e.target.value); setCurrentTrack(e.target.value) }}>
                     <option value="none" disabled>--- select a track ---</option>
                     {trackOptions}
                 </select>
             </label>
 
-            <label className="block">
-                Choose a hike
-                <select required defaultValue="none">
-                    <option value="none" disabled>--- select a hike ---</option>
-                    {hikeOptions}
-                </select>
-            </label>
-
-            <input type="submit" value="Add to Hike" className="bg-green-500 px-2 rounded" />
-        </form>
+            <button className="bg-green-500 px-2 rounded" onClick={() => { }}>Add to Hike</button>
+        </div>
     )
 }

@@ -3,13 +3,35 @@ import { useRef, useEffect, PropsWithChildren } from "react"
 import { MapContainer, Marker, Popup, TileLayer, useMap, Polyline, Tooltip } from 'react-leaflet'
 
 import 'leaflet/dist/leaflet.css'
-import { LatLngExpression } from "leaflet"
+import { LatLngExpression, latLngBounds } from "leaflet"
 
 interface MapProps {
     currentHike?: Hike
+    currentTrack?: Track
 }
 
-export const Map = ({ currentHike }: MapProps) => {
+interface ZoomToTrackProps {
+    points: LatLngExpression[]
+}
+const ZoomToTrack = ({ points }: ZoomToTrackProps) => {
+    if (points.length === 0) {
+        return null
+    }
+    const m = useMap()
+
+    const bounds = latLngBounds(points)
+    m.fitBounds(bounds)
+
+    return null
+}
+
+
+export const Map = ({ currentHike, currentTrack }: MapProps) => {
+
+    // convert current track to polyline
+    const currentTrackLte: LatLngExpression[] = currentTrack ? currentTrack.points.map((gpsPoint) => {
+        return [gpsPoint.lat, gpsPoint.lng]
+    }) : [];
 
     // convert hike to tracks
     const allTracks: LatLngExpression[][] = []
@@ -25,7 +47,8 @@ export const Map = ({ currentHike }: MapProps) => {
     const mapCenter = allTracks.length > 0 ? allTracks[0][0] : defaultLocation
     const mapZoom = allTracks.length > 0 ? 11 : 7
     const lineWeight = 6
-    const lineColor = "red"
+    const hikeLineColor = "red"
+    const trackLineColor = "green"
 
     // createPolyLines
     const polyLines = allTracks.map((track, i) => {
@@ -33,12 +56,21 @@ export const Map = ({ currentHike }: MapProps) => {
         return (
             <Polyline
                 positions={track}
-                color={lineColor}
+                color={hikeLineColor}
                 weight={lineWeight}>
                 <Tooltip sticky>{tt}</Tooltip>
             </Polyline>
         )
     })
+
+    const currentTrackPolyline = (
+        <Polyline
+            positions={currentTrackLte}
+            color={trackLineColor}
+            weight={lineWeight}>
+            <Tooltip sticky>New Track</Tooltip>
+        </Polyline>
+    )
 
     return (
         <MapContainer
@@ -53,6 +85,9 @@ export const Map = ({ currentHike }: MapProps) => {
             />
 
             {polyLines}
+            {currentTrackPolyline}
+
+            <ZoomToTrack points={currentTrackLte} />
 
         </MapContainer>
     )

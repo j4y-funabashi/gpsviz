@@ -3,9 +3,11 @@ import dynamic from "next/dynamic"
 import { AddTrack } from "./components/AddTrack";
 import { MapStats } from "./components/MapStats";
 import { useEffect, useState } from "react";
-import { fetchHike, fetchTracks } from "./api/apiClient";
+import { fetchTrack, fetchTracks } from "./api/apiClient";
 import { HikeList } from "./components/Hikes";
 import { CreateHikeForm } from "./components/AddHike";
+import { useMap } from "react-leaflet";
+import { latLngBounds } from "leaflet";
 
 export default function Home() {
   const Map = dynamic(() => import("./components/Map").then(mod => mod.Map), { ssr: false });
@@ -16,8 +18,18 @@ export default function Home() {
   const [hikes, setHikes] = useState<Hike[]>([])
 
   const loadNewHike = async (hikeID: string) => {
-    const newHike = await fetchHike(hikeID)
+    // const newHike = await fetchHike(hikeID)
+    const newHike = hikes.find((h) => {
+      if (h.name === hikeID) {
+        return true
+      }
+    })
     setCurrentHike(newHike)
+  }
+
+  const loadCurrentTrack = async (trackID: string) => {
+    const currentTrack = await fetchTrack(trackID)
+    setCurrentTrack(currentTrack)
   }
 
   const saveHike = async (hike: Hike) => {
@@ -42,13 +54,10 @@ export default function Home() {
       <div className="grid lg:grid-cols-3">
 
         <div>
-          <HikeList hikes={hikes} currentHike={currentHike} setCurrentHike={loadNewHike} />
+          <HikeList hikes={hikes} currentHike={currentHike} setCurrentHike={loadNewHike} tracks={tracks} setCurrentTrack={loadCurrentTrack} />
           <CreateHikeForm saveHike={saveHike} />
         </div>
 
-        <div>
-          <AddTrack tracks={tracks} hikes={hikes} />
-        </div>
 
         <div>
           <MapStats />
