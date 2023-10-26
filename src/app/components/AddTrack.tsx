@@ -3,9 +3,10 @@ import { useState } from "react"
 interface AddTrackProps {
     tracks: Track[]
     setCurrentTrack: (trackID: string) => Promise<void>
+    addTrackToHike: () => Promise<void>
 }
 
-export const AddTrack = ({ tracks, setCurrentTrack }: AddTrackProps) => {
+export const AddTrack = ({ tracks, setCurrentTrack, addTrackToHike }: AddTrackProps) => {
 
     const [selectedTrack, setSelectedTrack] = useState("")
 
@@ -25,7 +26,7 @@ export const AddTrack = ({ tracks, setCurrentTrack }: AddTrackProps) => {
                 </select>
             </label>
 
-            <button className="bg-green-500 px-2 rounded" onClick={() => { }}>Add to Hike</button>
+            <button className="bg-green-500 px-2 rounded" onClick={() => { addTrackToHike() }}>Add to Hike</button>
         </div>
     )
 }

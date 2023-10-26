@@ -6,9 +6,10 @@ interface HikeListProps {
     setCurrentHike: (hikeID: string) => Promise<void>
     tracks: Track[]
     setCurrentTrack: (trackID: string) => Promise<void>
+    addTrackToHike: () => Promise<void>
 }
 
-export const HikeList = ({ tracks, currentHike, hikes, setCurrentHike, setCurrentTrack }: HikeListProps) => {
+export const HikeList = ({ tracks, currentHike, hikes, setCurrentHike, setCurrentTrack, addTrackToHike }: HikeListProps) => {
 
     const hl = hikes.map((h) => {
         const isCurrent = currentHike?.name === h.name
@@ -19,7 +20,7 @@ export const HikeList = ({ tracks, currentHike, hikes, setCurrentHike, setCurren
                     <li key={h.name}>
                         <a className="text-lg bg-cyan-400" href="#" onClick={async () => { }}>{h.name}</a>
                         {trackCount} tracks
-                        <AddTrack tracks={tracks} setCurrentTrack={setCurrentTrack} />
+                        <AddTrack tracks={tracks} setCurrentTrack={setCurrentTrack} addTrackToHike={addTrackToHike} />
                     </li>
                     :
                     <li key={h.name}><a href="#" onClick={async () => { await setCurrentHike(h.name) }}>{h.name}</a></li>

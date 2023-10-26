@@ -3,9 +3,6 @@ import { track20221008, track20221014, track20221015, track20221016 } from "./al
 export const fetchTracks = async (): Promise<Track[]> => {
 
     return [
-        { id: "2022-10-19", points: [] },
-        { id: "2022-10-18", points: [] },
-        { id: "2022-10-17", points: [] },
         { id: "2022-10-16", points: [] },
         { id: "2022-10-15", points: [] },
         { id: "2022-10-14", points: [] },

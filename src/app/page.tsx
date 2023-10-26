@@ -33,6 +33,26 @@ export default function Home() {
     setHikes([...hikes, hike])
   }
 
+  const addTrackToHike = async () => {
+
+    if (!currentHike || !currentTrack) {
+      return
+    }
+
+    currentHike.tracks.push(currentTrack)
+
+    const newHikes = hikes.map((h) => {
+      if (h.name === currentHike.name) {
+        return currentHike
+      }
+      return h
+    })
+
+    setHikes(newHikes)
+    setCurrentHike(currentHike)
+    setCurrentTrack(undefined)
+  }
+
   useEffect(
     () => {
       const e = async () => {
@@ -51,7 +71,7 @@ export default function Home() {
       <div className="grid lg:grid-cols-3">
 
         <div>
-          <HikeList hikes={hikes} currentHike={currentHike} setCurrentHike={loadNewHike} tracks={tracks} setCurrentTrack={loadCurrentTrack} />
+          <HikeList hikes={hikes} currentHike={currentHike} setCurrentHike={loadNewHike} tracks={tracks} setCurrentTrack={loadCurrentTrack} addTrackToHike={addTrackToHike} />
           <CreateHikeForm saveHike={saveHike} />
         </div>
 

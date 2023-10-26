@@ -11,35 +11,38 @@ interface MapProps {
 }
 
 interface ZoomToTrackProps {
-    points: LatLngExpression[]
+    allPoints: LatLngExpression[]
 }
-const ZoomToTrack = ({ points }: ZoomToTrackProps) => {
-    if (points.length === 0) {
-        return null
-    }
+const ZoomToTrack = ({ allPoints }: ZoomToTrackProps) => {
     const m = useMap()
 
-    const bounds = latLngBounds(points)
-    m.fitBounds(bounds)
+    if (allPoints.length !== 0) {
+        const hikebounds = latLngBounds(allPoints)
+        m.fitBounds(hikebounds)
+    }
 
     return null
 }
 
-
 export const Map = ({ currentHike, currentTrack }: MapProps) => {
+
+    const allPoints: LatLngExpression[] = []
 
     // convert current track to polyline
     const currentTrackLte: LatLngExpression[] = currentTrack ? currentTrack.points.map((gpsPoint) => {
-        return [gpsPoint.lat, gpsPoint.lng]
+        const nPoint: LatLngExpression = [gpsPoint.lat, gpsPoint.lng]
+        allPoints.push(nPoint)
+        return nPoint
     }) : [];
 
     // convert hike to tracks
     const allTracks: LatLngExpression[][] = []
     currentHike?.tracks.forEach((trk) => {
         const lte: LatLngExpression[] = trk.points.map((gpsPoint) => {
-            return [gpsPoint.lat, gpsPoint.lng]
+            const nPoint: LatLngExpression = [gpsPoint.lat, gpsPoint.lng]
+            allPoints.push(nPoint)
+            return nPoint
         });
-
         allTracks.push(lte)
     })
 
@@ -87,7 +90,7 @@ export const Map = ({ currentHike, currentTrack }: MapProps) => {
             {polyLines}
             {currentTrackPolyline}
 
-            <ZoomToTrack points={currentTrackLte} />
+            <ZoomToTrack allPoints={allPoints} />
 
         </MapContainer>
     )
