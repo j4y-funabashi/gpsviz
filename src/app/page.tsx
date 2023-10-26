@@ -1,13 +1,10 @@
 'use client'
 import dynamic from "next/dynamic"
-import { AddTrack } from "./components/AddTrack";
 import { MapStats } from "./components/MapStats";
 import { useEffect, useState } from "react";
 import { fetchTrack, fetchTracks } from "./api/apiClient";
 import { HikeList } from "./components/Hikes";
 import { CreateHikeForm } from "./components/AddHike";
-import { useMap } from "react-leaflet";
-import { latLngBounds } from "leaflet";
 
 export default function Home() {
   const Map = dynamic(() => import("./components/Map").then(mod => mod.Map), { ssr: false });
